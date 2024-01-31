@@ -118,32 +118,32 @@ function updateRemoveCourseDropdown() {
   }
 }
 function auditDegree() {
-  var selectedSubject = document.getElementById("courseSubject").value;
+  var degreeProgram = document.getElementById("degreeProgram").value;
+  console.log(degreeProgram);
 
-  if (selectedSubject === "COMM") {
-    COMM_auditDegree();
-  } else if (selectedSubject === "CS") {
+  if (degreeProgram === "CM") {
+    CM_auditDegree();
+  } else if (degreeProgram === "HT") {
+    HT_auditDegree();
+  } else if (degreeProgram === "UT") {
+    UT_auditDegree();
+  } else if (degreeProgram === "MBA") {
+    MBA_auditDegree();
+  } else if (degreeProgram === "CS") {
     CS_auditDegree();
-  } else if (selectedSubject === "ECE") {
+  } else if (degreeProgram === "ECE") {
     ECE_auditDegree();
-  } else if (selectedSubject === "HADM") {
-    HADM_auditDegree();
-  } else if (selectedSubject === "INFO") {
-    INFO_auditDegree();
-  } else if (selectedSubject === "LAW") {
-    LAW_auditDegree();
-  } else if (selectedSubject === "NBAY") {
-    NBAY_auditDegree();
-  } else if (selectedSubject === "ORIE") {
+  } else if (degreeProgram === "LLM") {
+    LLM_auditDegree();
+  } else if (degreeProgram === "DT") {
+    DT_auditDegree();
+  } else if (degreeProgram === "ORIE") {
     ORIE_auditDegree();
-  } else if (selectedSubject === "TECH") {
-    TECH_auditDegree();
-  } else if (selectedSubject === "TECHIE") {
-    TECHIE_auditDegree();
   } else {
     alert("Please select a degree program");
   }
 }
+
 function CS_auditDegree() {
   var degreeProgram = document.getElementById("degreeProgram").value;
   var degreeProgramDisplay = document.getElementById("degreeProgramDisplay");
@@ -223,4 +223,40 @@ function CS_auditDegree() {
     auditResults.innerHTML +=
       " - <br> <strong>Reassess your schedule, you are not on track to graduate</strong>";
   }
+}
+
+function CM_auditDegree() {
+  alert("not yet implemented");
+}
+
+function HT_auditDegree() {
+  alert("not yet implemented");
+}
+
+function UT_auditDegree() {
+  alert("not yet implemented");
+}
+
+function MBA_auditDegree() {
+  alert("not yet implemented");
+}
+
+function CS_auditDegree() {
+  alert("not yet implemented");
+}
+
+function ECE_auditDegree() {
+  alert("not yet implemented");
+}
+
+function LLM_auditDegree() {
+  alert("not yet implemented");
+}
+
+function DT_auditDegree() {
+  alert("not yet implemented");
+}
+
+function ORIE_auditDegree() {
+  alert("not yet implemented");
 }
