@@ -167,6 +167,12 @@ function CS_auditDegree() {
   var electiveCredits = 0;
   var courseGroupings = "";
 
+  coursesTaken = coursesTaken.sort((a, b) => {
+    return b.credits - a.credits;
+  });
+
+  console.log("DEBUG: ", coursesTaken);
+
   // Iterate through coursesTaken
   coursesTaken.forEach((course) => {
     if (course.subject === "CS" && csCredits < 15) {
@@ -198,6 +204,16 @@ function CS_auditDegree() {
         " credits <br>";
       additionalTechCredits += Number(course.credits);
     } else if (course.subject === "TECH" && techCredits < 8) {
+      console.log(
+        "DEBUG: " +
+          course.subject +
+          " " +
+          course.courseCode +
+          " " +
+          course.courseName +
+          " " +
+          course.credits
+      );
       courseGroupings +=
         "Tech (Studio): " +
         course.subject +
@@ -210,6 +226,7 @@ function CS_auditDegree() {
         " credits <br>";
 
       techCredits += Number(course.credits);
+      console.log("DEBUG: ", techCredits);
     }
     // Any remaining courses are counted as electives
     else {
