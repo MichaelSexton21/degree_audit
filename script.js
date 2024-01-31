@@ -1,6 +1,28 @@
 var program = "";
 var coursesTaken = [];
 
+function loadCoursesTaken() {
+  // Retrieve the JSON string from local storage
+  var coursesTakenJSON = localStorage.getItem("coursesTaken");
+
+  if (coursesTakenJSON !== null) {
+    coursesTaken = JSON.parse(coursesTakenJSON);
+  }
+  updateCourseListDisplay();
+  updateRemoveCourseDropdown();
+}
+
+// Add an event listener to trigger the loadCoursesTaken function when the page is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  loadCoursesTaken();
+});
+
+function saveCoursesTaken() {
+  // Save coursesTaken to local storage
+  var coursesTakenJSON = JSON.stringify(coursesTaken);
+  localStorage.setItem("coursesTaken", coursesTakenJSON);
+}
+
 function addEntry() {
   var courseSubject = document.getElementById("courseSubject").value;
   var classCode = document.getElementById("classCode").value;
@@ -30,15 +52,106 @@ function addEntry() {
 
   updateCourseListDisplay();
   updateRemoveCourseDropdown();
+
+  saveCoursesTaken();
 }
 
+function removeSelectedCourse() {
+  var removeCourseDropdown = document.getElementById("removeCourseDropdown");
+  var selectedCourseCode = removeCourseDropdown.value;
+
+  // Find the index of the selected course in the coursesTaken array
+  var courseIndex = -1;
+  for (var i = 0; i < coursesTaken.length; i++) {
+    if (coursesTaken[i].courseCode == selectedCourseCode) {
+      courseIndex = i;
+      break;
+    }
+  }
+
+  if (courseIndex !== -1) {
+    // Remove the selected course from the coursesTaken array
+    coursesTaken.splice(courseIndex, 1);
+
+    removeCourseDropdown.value = "";
+
+    updateCourseListDisplay();
+    updateRemoveCourseDropdown();
+  } else {
+    alert("Course with code " + selectedCourseCode + " was not found.");
+  }
+  saveCoursesTaken();
+}
+
+function updateCourseListDisplay() {
+  var entryDiv = document.getElementById("entries");
+  entryDiv.innerHTML = ""; // Clear the current display
+
+  // Re-display the updated list of courses
+  coursesTaken.forEach((course) => {
+    var entry =
+      "Subject: " +
+      course.subject +
+      ", Course: " +
+      course.courseCode +
+      ", Credits: " +
+      course.credits +
+      ", Semester: " +
+      course.semester;
+    entryDiv.innerHTML += "<p>" + entry + "</p>";
+  });
+}
+
+function updateRemoveCourseDropdown() {
+  var removeCourseDropdown = document.getElementById("removeCourseDropdown");
+  removeCourseDropdown.innerHTML = ""; // Clear existing options
+  removeCourseDropdown.options.add(
+    new Option("Select a Course", "", true, true)
+  );
+
+  // Loop through coursesTaken and generate options
+  for (var i = 0; i < coursesTaken.length; i++) {
+    var course = coursesTaken[i];
+    removeCourseDropdown.options.add(
+      new Option(course.subject + " " + course.courseCode, course.courseCode)
+    );
+  }
+}
 function auditDegree() {
+  var selectedSubject = document.getElementById("courseSubject").value;
+
+  if (selectedSubject === "COMM") {
+    COMM_auditDegree();
+  } else if (selectedSubject === "CS") {
+    CS_auditDegree();
+  } else if (selectedSubject === "ECE") {
+    ECE_auditDegree();
+  } else if (selectedSubject === "HADM") {
+    HADM_auditDegree();
+  } else if (selectedSubject === "INFO") {
+    INFO_auditDegree();
+  } else if (selectedSubject === "LAW") {
+    LAW_auditDegree();
+  } else if (selectedSubject === "NBAY") {
+    NBAY_auditDegree();
+  } else if (selectedSubject === "ORIE") {
+    ORIE_auditDegree();
+  } else if (selectedSubject === "TECH") {
+    TECH_auditDegree();
+  } else if (selectedSubject === "TECHIE") {
+    TECHIE_auditDegree();
+  } else {
+    alert("Please select a degree program");
+  }
+}
+function CS_auditDegree() {
   var degreeProgram = document.getElementById("degreeProgram").value;
   var degreeProgramDisplay = document.getElementById("degreeProgramDisplay");
   var auditResults = document.getElementById("auditResults");
 
   degreeProgramDisplay.innerHTML = "Program: " + degreeProgram;
 
+  var countedCourses = [];
   let csCredits = 0;
   let additionalTechCredits = 0;
   let techCredits = 0;
@@ -46,7 +159,8 @@ function auditDegree() {
   let csCoursesTaken = [];
 
   // Iterate through coursesTaken
-  coursesTaken.forEach((course) => {
+  courses.forEach((course) => {
+    course.push(course);
     // Check if it's a CS course
     if (course.subject === "CS") {
       // Check if it's not already counted
@@ -58,7 +172,8 @@ function auditDegree() {
     // Check for additional tech credits
     else if (
       ["CS", "ECE", "INFO", "ORIE"].includes(course.subject) &&
-      course.courseCode >= 5000
+      course.courseCode >= 5000 &&
+      additionalTechCredits < 3
     ) {
       additionalTechCredits += course.credits;
     }
@@ -107,66 +222,5 @@ function auditDegree() {
   } else {
     auditResults.innerHTML +=
       " - <br> <strong>Reassess your schedule, you are not on track to graduate</strong>";
-  }
-}
-
-function removeSelectedCourse() {
-  var removeCourseDropdown = document.getElementById("removeCourseDropdown");
-  var selectedCourseCode = removeCourseDropdown.value;
-
-  // Find the index of the selected course in the coursesTaken array
-  var courseIndex = -1;
-  for (var i = 0; i < coursesTaken.length; i++) {
-    if (coursesTaken[i].courseCode == selectedCourseCode) {
-      courseIndex = i;
-      break;
-    }
-  }
-
-  if (courseIndex !== -1) {
-    // Remove the selected course from the coursesTaken array
-    coursesTaken.splice(courseIndex, 1);
-
-    removeCourseDropdown.value = "";
-
-    updateCourseListDisplay();
-    updateRemoveCourseDropdown();
-  } else {
-    alert("Course with code " + selectedCourseCode + " was not found.");
-  }
-}
-
-function updateCourseListDisplay() {
-  var entryDiv = document.getElementById("entries");
-  entryDiv.innerHTML = ""; // Clear the current display
-
-  // Re-display the updated list of courses
-  coursesTaken.forEach((course) => {
-    var entry =
-      "Subject: " +
-      course.subject +
-      ", Course: " +
-      course.courseCode +
-      ", Credits: " +
-      course.credits +
-      ", Semester: " +
-      course.semester;
-    entryDiv.innerHTML += "<p>" + entry + "</p>";
-  });
-}
-
-function updateRemoveCourseDropdown() {
-  var removeCourseDropdown = document.getElementById("removeCourseDropdown");
-  removeCourseDropdown.innerHTML = ""; // Clear existing options
-  removeCourseDropdown.options.add(
-    new Option("Select a Course", "", true, true)
-  );
-
-  // Loop through coursesTaken and generate options
-  for (var i = 0; i < coursesTaken.length; i++) {
-    var course = coursesTaken[i];
-    removeCourseDropdown.options.add(
-      new Option(course.subject + " " + course.courseCode, course.courseCode)
-    );
   }
 }
