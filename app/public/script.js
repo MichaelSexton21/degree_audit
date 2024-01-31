@@ -1,5 +1,6 @@
 var program = "";
 var coursesTaken = [];
+var coursesData = [];
 
 function loadCoursesTaken() {
   // Retrieve the JSON string from local storage
@@ -18,6 +19,51 @@ function loadCoursesTaken() {
   updateRemoveCourseDropdown();
   updateDegreeProgram();
 }
+
+// Function to load course data
+function loadCourseData() {
+  fetch("courses_data.json")
+    .then((response) => response.json())
+    .then((data) => {
+      coursesData = data;
+      populateSubjectDropdown();
+      attachCourseNumberListener();
+    })
+    .catch((error) => console.error("Error loading course data:", error));
+}
+
+// Function to populate the subject dropdown
+function populateSubjectDropdown() {
+  const uniqueSubjects = new Set(coursesData.map((course) => course[0]));
+  const subjectSelect = document.getElementById("courseSubject");
+
+  uniqueSubjects.forEach((subject) => {
+    const option = document.createElement("option");
+    option.value = subject;
+    option.textContent = subject;
+    subjectSelect.appendChild(option);
+  });
+}
+
+// Function to attach listener to course number input
+function attachCourseNumberListener() {
+  document.getElementById("classCode").addEventListener("input", function () {
+    const enteredClassCode = this.value;
+    const matchingCourse = coursesData.find(
+      (course) => course[1] === enteredClassCode
+    );
+    if (matchingCourse) {
+      document.getElementById("className").value = matchingCourse[2];
+      document.getElementById("credits").value = matchingCourse[3];
+    } else {
+      document.getElementById("className").value = "";
+      document.getElementById("credits").value = "";
+    }
+  });
+}
+
+// Call the loadCourseData function when the DOM content is loaded
+document.addEventListener("DOMContentLoaded", loadCourseData);
 
 // Add an event listener to trigger the loadCoursesTaken function when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
