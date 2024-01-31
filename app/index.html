@@ -76,13 +76,28 @@
             <!-- Course -->
             <div class="column">
               <div class="field">
-                <label class="label">Course</label>
+                <label class="label">Course Number</label>
                 <div class="control">
                   <input
                     id="classCode"
                     class="input"
                     type="text"
-                    placeholder="Enter Class Code"
+                    placeholder="Enter Course Number"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Course Name -->
+            <div class="column">
+              <div class="field">
+                <label class="label">Course Name</label>
+                <div class="control">
+                  <input
+                    id="className"
+                    class="input"
+                    type="text"
+                    placeholder="Enter Course Name (Optional)"
                   />
                 </div>
               </div>
@@ -172,9 +187,15 @@
         <h1 class="title is-small">Degree Audit:</h1>
         <h2 class="subtitle" id="degreeProgramDisplay"></h2>
         <div id="entries"></div>
-        <div></div>
-        <div id="auditResults"></div>
       </div>
     </section>
+
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-small">Results:</h1>
+        <div id="auditResults"></div>
+        <div><br></div>
+        <div id="courseGroupings"></div>
+      </div>
   </body>
 </html>
