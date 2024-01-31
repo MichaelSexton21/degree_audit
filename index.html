@@ -6,12 +6,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
     />
+    <script src="script.js"></script>
   </head>
 
   <body>
     <section class="section">
       <div class="container">
-        <h1 class="title">Degree Audit</h1>
+        <h1 class="title">Degree Audit Machine</h1>
 
         <!-- Degree Program Dropdown -->
         <div class="field">
@@ -143,12 +144,37 @@
 
     <section class="section">
       <div class="container">
-        <h1 class="title is-small">Degree Audit:</h1>
-        <h2 class="subtitle" id="degreeProgramDisplay"></h2>
-        <div id="entries"></div>
+        <!-- Dropdown to select a course to remove -->
+        <div class="field">
+          <label class="label">Select Course to Remove:</label>
+          <div class="control">
+            <div class="select">
+              <select id="removeCourseDropdown">
+                <option value="" disabled selected>Select a Course</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Remove button -->
+        <div class="field">
+          <div class="control">
+            <button class="button is-danger" onclick="removeSelectedCourse()">
+              Remove
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <script src="script.js"></script>
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-small">Degree Audit:</h1>
+        <h2 class="subtitle" id="degreeProgramDisplay"></h2>
+        <div id="entries"></div>
+        <div></div>
+        <div id="auditResults"></div>
+      </div>
+    </section>
   </body>
 </html>
