@@ -1,0 +1,154 @@
+<html>
+  <head>
+    <title>Course Input Form</title>
+    <!-- Include Bulma CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css"
+    />
+  </head>
+
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title">Degree Audit</h1>
+
+        <!-- Degree Program Dropdown -->
+        <div class="field">
+          <label class="label">Degree Program</label>
+          <div class="control">
+            <div class="select">
+              <select id="degreeProgram">
+                <option value="">Select Degree Program</option>
+                <option value="CM">Connective Media</option>
+                <option value="HT">Health Tech</option>
+                <option value="UT">Urban Tech</option>
+                <option value="MBA">MBA</option>
+                <option value="CS">Computer Science</option>
+                <option value="ECE">Electrical and Computer Engineering</option>
+                <option value="ORIE">
+                  Operations Research and Information Engineering
+                </option>
+                <option value="LLM">
+                  LLM (Law, Technology, and Entrepreneurship)
+                </option>
+                <option value="DT">Design Technology</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="example">
+          ex.) Subject: CS, Course: 5781: Machine Learning Engineering, Credits:
+          3, Semester: Fall
+        </div>
+        <div id="example">
+          ex.) Subject: CS, Course: 5781, Credits: 3, Semester: Fall
+        </div>
+
+        <form>
+          <div class="columns">
+            <!-- Subject -->
+            <div class="column">
+              <div class="field">
+                <label class="label">Subject</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="courseSubject">
+                      <option value="">Select Subject</option>
+                      <option value="COMM">COMM</option>
+                      <option value="CS">CS</option>
+                      <option value="ECE">ECE</option>
+                      <option value="HADM">HADM</option>
+                      <option value="INFO">INFO</option>
+                      <option value="LAW">LAW</option>
+                      <option value="NBAY">NBAY</option>
+                      <option value="ORIE">ORIE</option>
+                      <option value="TECH">TECH</option>
+                      <option value="TECHIE">TECHIE</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Course -->
+            <div class="column">
+              <div class="field">
+                <label class="label">Course</label>
+                <div class="control">
+                  <input
+                    id="classCode"
+                    class="input"
+                    type="text"
+                    placeholder="Enter Class Code"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Credits -->
+            <div class="column">
+              <div class="field">
+                <label class="label">Credits</label>
+                <div class="control">
+                  <input
+                    id="credits"
+                    class="input"
+                    type="number"
+                    placeholder="Enter Credits"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- Semester Dropdown -->
+            <div class="column">
+              <div class="field">
+                <label class="label">Semester</label>
+                <div class="control">
+                  <div class="select is-fullwidth">
+                    <select id="semester">
+                      <option value="">Select Semester</option>
+                      <option value="Fall">Fall</option>
+                      <option value="Winter">Winter</option>
+                      <option value="Spring">Spring</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Buttons -->
+          <div class="field is-grouped">
+            <div class="control">
+              <button type="button" class="button is-info" onclick="addEntry()">
+                Add
+              </button>
+            </div>
+            <div class="control">
+              <button
+                type="button"
+                class="button is-primary"
+                onclick="auditDegree()"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h1 class="title is-small">Degree Audit:</h1>
+        <h2 class="subtitle" id="degreeProgramDisplay"></h2>
+        <div id="entries"></div>
+      </div>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
