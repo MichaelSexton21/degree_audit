@@ -45,13 +45,6 @@
           </div>
         </div>
 
-        <div id="example">
-          ex.) Subject: CS, Course: 5781: Machine Learning Engineering, Credits:
-          3, Semester: Fall
-        </div>
-        <div id="example">
-          ex.) Subject: CS, Course: 5781, Credits: 3, Semester: Fall
-        </div>
 
         <form>
           <div class="columns">
@@ -69,32 +62,16 @@
               </div>
             </div>
 
-            <!-- Course -->
-            <div class="column">
-              <div class="field">
-                <label class="label">Course Number</label>
-                <div class="control">
-                  <input
-                    id="classCode"
-                    class="input"
-                    type="text"
-                    placeholder="Enter Course Number"
-                  />
-                </div>
-              </div>
-            </div>
-
             <!-- Course Name -->
             <div class="column">
               <div class="field">
                 <label class="label">Course Name</label>
                 <div class="control">
-                  <input
-                    id="className"
-                    class="input"
-                    type="text"
-                    placeholder="Enter Course Name (Optional)"
-                  />
+                  <div class="select is-fullwidth">
+                  <select id="className">
+                    <option value="">Select Course Name</option>
+                  </select>
+                  </div>
                 </div>
               </div>
             </div>

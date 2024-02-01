@@ -27,10 +27,17 @@ function loadCourseData() {
     .then((data) => {
       coursesData = data;
       populateSubjectDropdown();
-      attachCourseNumberListener();
     })
     .catch((error) => console.error("Error loading course data:", error));
 }
+
+// Call the loadCourseData function when the DOM content is loaded
+document.addEventListener("DOMContentLoaded", loadCourseData);
+
+// Add an event listener to trigger the loadCoursesTaken function when the page is loaded
+document.addEventListener("DOMContentLoaded", function () {
+  loadCoursesTaken();
+});
 
 // Function to populate the subject dropdown
 function populateSubjectDropdown() {
@@ -45,29 +52,58 @@ function populateSubjectDropdown() {
   });
 }
 
-// Function to attach listener to course number input
-function attachCourseNumberListener() {
-  document.getElementById("classCode").addEventListener("input", function () {
-    const enteredClassCode = this.value;
-    const matchingCourse = coursesData.find(
-      (course) => course[1] === enteredClassCode
-    );
-    if (matchingCourse) {
-      document.getElementById("className").value = matchingCourse[2];
-      document.getElementById("credits").value = matchingCourse[3];
-    } else {
-      document.getElementById("className").value = "";
-      document.getElementById("credits").value = "";
+// Function to populate the Course Name dropdown based on selected subject
+function populateCourseNames(selectedSubject) {
+  const courseNameSelect = document.getElementById("className");
+  courseNameSelect.innerHTML = '<option value="">Select Course Name</option>';
+
+  // Filter courses by the selected subject and populate dropdown
+  coursesData.forEach((course) => {
+    if (course[0] === selectedSubject) {
+      const option = document.createElement("option");
+      option.value = course[1]; // Use course number as value
+      option.textContent = course[1] + " " + course[2]; // Use course description as text
+      courseNameSelect.appendChild(option);
     }
   });
 }
 
-// Call the loadCourseData function when the DOM content is loaded
-document.addEventListener("DOMContentLoaded", loadCourseData);
-
-// Add an event listener to trigger the loadCoursesTaken function when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-  loadCoursesTaken();
+  const courseSubjectSelect = document.getElementById("courseSubject");
+  if (courseSubjectSelect) {
+    courseSubjectSelect.addEventListener("change", function () {
+      populateCourseNames(this.value);
+    });
+  } else {
+    console.error('Element with ID "courseSubject" was not found.');
+  }
+});
+
+// Function to update the credits display
+function updateCreditsDisplay(courseNumber) {
+  const creditsDisplay = document.getElementById("credits");
+
+  // Find the course with the matching course number
+  const course = coursesData.find((c) => c[1] === courseNumber);
+
+  if (course) {
+    // Set the credits value
+    creditsDisplay.value = course[3];
+  } else {
+    // Clear the display or handle the case where the course is not found
+    creditsDisplay.value = "";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  var courseNameSelect = document.getElementById("className");
+  if (courseNameSelect) {
+    courseNameSelect.addEventListener("change", function () {
+      updateCreditsDisplay(this.value);
+    });
+  } else {
+    console.error('Element with ID "courseName" was not found.');
+  }
 });
 
 function updateDegreeProgramDropdown() {
