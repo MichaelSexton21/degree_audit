@@ -39,6 +39,19 @@ document.addEventListener("DOMContentLoaded", function () {
   loadCoursesTaken();
 });
 
+function updateDegreeProgramDropdown() {
+  var degreeProgramDropdown = document.getElementById("degreeProgram");
+  if (program) {
+    degreeProgramDropdown.value = program; // Set the dropdown value to program
+  }
+}
+
+function updateDegreeProgram() {
+  var degreeProgramDisplay = document.getElementById("degreeProgramDisplay");
+  program = document.getElementById("degreeProgram").value;
+  degreeProgramDisplay.innerHTML = "Program: " + program;
+}
+
 // Function to populate the subject dropdown
 function populateSubjectDropdown() {
   const uniqueSubjects = new Set(coursesData.map((course) => course[0]));
@@ -61,7 +74,7 @@ function populateCourseNames(selectedSubject) {
   coursesData.forEach((course) => {
     if (course[0] === selectedSubject) {
       const option = document.createElement("option");
-      option.value = course[1]; // Use course number as value
+      option.value = course[1] + " " + course[2]; // Use course number as value
       option.textContent = course[1] + " " + course[2]; // Use course description as text
       courseNameSelect.appendChild(option);
     }
@@ -84,7 +97,7 @@ function updateCreditsDisplay(courseNumber) {
   const creditsDisplay = document.getElementById("credits");
 
   // Find the course with the matching course number
-  const course = coursesData.find((c) => c[1] === courseNumber);
+  const course = coursesData.find((c) => c[1] === courseNumber.split(" ")[0]);
 
   if (course) {
     // Set the credits value
@@ -106,16 +119,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-function updateDegreeProgramDropdown() {
-  var degreeProgramDropdown = document.getElementById("degreeProgram");
-  degreeProgramDropdown.value = program;
-}
-
-function updateDegreeProgram() {
-  var degreeProgramDisplay = document.getElementById("degreeProgramDisplay");
-  degreeProgramDisplay.innerHTML = "Program: " + program;
-}
-
 function saveDegreeProgram() {
   // Save program to local storage
   var programJSON = JSON.stringify(program);
@@ -126,25 +129,18 @@ function saveCoursesTaken() {
   // Save coursesTaken to local storage
   var coursesTakenJSON = JSON.stringify(coursesTaken);
   localStorage.setItem("coursesTaken", coursesTakenJSON);
-
-  var programJSON = JSON.stringify(program);
-  localStorage.setItem("program", coursesTakenJSON);
 }
 
 function addEntry() {
   var courseSubject = document.getElementById("courseSubject").value;
-  var classCode = document.getElementById("classCode").value;
   var className = document.getElementById("className").value;
   var credits = document.getElementById("credits").value;
   var semester = document.getElementById("semester").value;
+  var classCode = className.split(" ")[0];
+  className = className.split(" ").slice(1).join(" ");
 
   //validate there is input before adding class
-  if (
-    courseSubject === "" ||
-    classCode === "" ||
-    credits === "" ||
-    semester === ""
-  ) {
+  if (courseSubject === "" || credits === "" || semester === "") {
     alert("Please complete all fields");
   } else {
     var course = {
@@ -173,7 +169,8 @@ function addEntry() {
 
     updateCourseListDisplay();
     updateRemoveCourseDropdown();
-
+    updateDegreeProgram();
+    saveDegreeProgram();
     saveCoursesTaken();
   }
 }
