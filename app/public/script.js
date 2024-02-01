@@ -391,7 +391,130 @@ function ECE_auditDegree() {
 }
 
 function LLM_auditDegree() {
-  alert("not yet implemented");
+  var coreCredits = 0;
+  var techCredits = 0;
+  var lawElectiveCredits = 0;
+  var freeElectiveCredits = 0;
+  var courseGroupings = "";
+
+  // Assuming coursesTaken is a global variable
+  coursesTaken = coursesTaken.sort((a, b) => {
+    return b.credits - a.credits;
+  });
+
+  // Iterate through coursesTaken
+  coursesTaken.forEach((course) => {
+    // Core Courses
+    if (
+      [
+        "LAW 6470",
+        "LAW 6512",
+        "LAW 6893",
+        "NBAY 5301",
+        "TECHIE 5300",
+        "TECHIE 5310",
+        "LAW 6331",
+        "LAW 6568",
+        "LAW 6614",
+        "LAW 6896",
+      ].includes(course.subject + " " + course.courseCode) &&
+      coreCredits < 18
+    ) {
+      courseGroupings +=
+        "Core: " + course.courseName + " - " + course.credits + " credits<br>";
+      coreCredits += Number(course.credits);
+    }
+    // TECH Credits
+    else if (
+      ["TECH 5900", "TECH 5910", "TECH 5920", "TECH 5930"].includes(
+        course.courseCode
+      ) &&
+      techCredits < 8
+    ) {
+      courseGroupings +=
+        "TECH: " + course.courseName + " - " + course.credits + " credits<br>";
+      techCredits += Number(course.credits);
+    }
+    // Law Electives
+    else if (course.subject === "LAW" && lawElectiveCredits < 6) {
+      courseGroupings +=
+        "Law Elective: " +
+        course.courseName +
+        " - " +
+        course.credits +
+        " credits<br>";
+      lawElectiveCredits += Number(course.credits);
+    }
+    // Free Electives
+    else if (freeElectiveCredits < 12) {
+      courseGroupings +=
+        "Free Elective: " +
+        course.courseName +
+        " - " +
+        course.credits +
+        " credits<br>";
+      freeElectiveCredits += Number(course.credits);
+    }
+  });
+
+  // Define requirements
+  const coreCreditsRequired = 18;
+  const techCreditsRequired = 8;
+  const lawElectiveCreditsRequired = 6;
+  const freeElectiveCreditsRequired = 1; // At least 1 credit
+
+  // Check if all requirements are met
+  const meetsCoreCredits = coreCredits >= coreCreditsRequired;
+  const meetsTechCredits = techCredits >= techCreditsRequired;
+  const meetsLawElectiveCredits =
+    lawElectiveCredits >= lawElectiveCreditsRequired;
+  const meetsFreeElectiveCredits =
+    freeElectiveCredits >= freeElectiveCreditsRequired;
+
+  var allRequirementsMet =
+    meetsCoreCredits &&
+    meetsTechCredits &&
+    meetsLawElectiveCredits &&
+    meetsFreeElectiveCredits;
+
+  var auditResults = document.getElementById("auditResults");
+
+  auditResults.innerHTML =
+    "Audit Results: " +
+    "<strong>Meets Core Course Credits:</strong> " +
+    coreCredits +
+    "/" +
+    coreCreditsRequired +
+    " " +
+    (meetsCoreCredits ? "Yes" : "No") +
+    ", <strong>Meets TECH Credits:</strong> " +
+    techCredits +
+    "/" +
+    techCreditsRequired +
+    " " +
+    (meetsTechCredits ? "Yes" : "No") +
+    ", <strong>Meets Law Elective Credits:</strong> " +
+    lawElectiveCredits +
+    "/" +
+    lawElectiveCreditsRequired +
+    " " +
+    (meetsLawElectiveCredits ? "Yes" : "No") +
+    ", <strong>Meets Free Elective Credits:</strong> " +
+    freeElectiveCredits +
+    "/" +
+    freeElectiveCreditsRequired +
+    " " +
+    (meetsFreeElectiveCredits ? "Yes" : "No");
+
+  if (allRequirementsMet) {
+    auditResults.innerHTML += " - <strong>Passed</strong>";
+  } else {
+    auditResults.innerHTML +=
+      " <br> <strong>Reassess your schedule, you are not on track to graduate</strong>";
+  }
+
+  var courseGroupingsDisplay = document.getElementById("courseGroupings");
+  courseGroupingsDisplay.innerHTML = courseGroupings;
 }
 
 function DT_auditDegree() {
