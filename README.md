@@ -8,15 +8,10 @@ Understanding that some programs have complex requirements which can be challeng
 
 _This page is made exclusively for Cornell Tech Masters Degrees. Prior to this, no solution existed at this institution for such a purpose._
 
-## Features
-
-- **Course Data Fetching**: The application fetches course data from specified URLs using Python, processes it using Beautiful Soup, and stores it in a JSON format.
-- **Interactive Web Interface**: Users can interact with a web interface to input their course details, such as subject, course name, credits, and semester.
-- **Degree Audit**: After inputting their courses, students can submit their data to receive an audit of their degree progress.
-
 ## Development Notes
 
 - The application is built using JavaScript and Bulma CSS. Python was used for data retrieval, cleaning, and storage
+- Vercel is utilized for hosting, in addition to providing Continuous Deployment and Continuous Integration (CI/CD) Pipeline services.
 - When developing locally, you must run a python server to help load the JSON: python3 -m http.server
 
 ## Repository Structure
