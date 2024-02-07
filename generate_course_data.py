@@ -50,16 +50,17 @@ def fetch_course_data(url):
         return []
 
 
-# URLs to query
-url1 = "https://classes.cornell.edu/search/roster/SP24?q=&days-type=any&campus%5B0%5D=NYT&crseAttrs-type=any&breadthDistr-type=any&pi="
-url2 = "https://classes.cornell.edu/search/roster/FA23?q=&days-type=any&campus%5B0%5D=NYT&crseAttrs-type=any&breadthDistr-type=any&pi="
-url3 = "https://classes.cornell.edu/browse/roster/SP24/subject/NBAY"
+urls = [
+    "https://classes.cornell.edu/search/roster/SP24?q=&days-type=any&campus%5B0%5D=NYT&crseAttrs-type=any&breadthDistr-type=any&pi=",
+    "https://classes.cornell.edu/search/roster/FA23?q=&days-type=any&campus%5B0%5D=NYT&crseAttrs-type=any&breadthDistr-type=any&pi=",
+    "https://classes.cornell.edu/browse/roster/SP24/subject/NBAY",
+    "https://classes.cornell.edu/browse/roster/FA23/subject/NBAY",
+]
 
-courses_data_sp24 = fetch_course_data(url1)
-courses_data_fa23 = fetch_course_data(url2)
-courses_data_nbay = fetch_course_data(url3)
+combined_courses_data = []
 
-combined_courses_data = courses_data_sp24 + courses_data_fa23 + courses_data_nbay
+for url in urls:
+    combined_courses_data.extend(fetch_course_data(url))
 
 courses_json = json.dumps(combined_courses_data, indent=4)
 file_name = "./app/public/courses_data.json"

@@ -94,10 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // Function to update the credits display
 function updateCreditsDisplay(courseNumber) {
+  console.log(courseNumber);
   const creditsDisplay = document.getElementById("credits");
 
   // Find the course with the matching course number
-  const course = coursesData.find((c) => c[1] === courseNumber.split(" ")[0]);
+  const course = coursesData.find((c) => c[1] + " " + c[2] === courseNumber);
 
   if (course) {
     // Set the credits value
@@ -425,12 +426,7 @@ function LLM_auditDegree() {
       coreCredits += Number(course.credits);
     }
     // TECH Credits
-    else if (
-      ["TECH 5900", "TECH 5910", "TECH 5920", "TECH 5930"].includes(
-        course.courseCode
-      ) &&
-      techCredits < 8
-    ) {
+    else if ("TECH" === course.subject && techCredits < 8) {
       courseGroupings +=
         "TECH: " + course.courseName + " - " + course.credits + " credits<br>";
       techCredits += Number(course.credits);
